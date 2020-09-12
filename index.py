@@ -117,6 +117,7 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage('New category added')
         self.lineEdit_new_cat.setText('')
         self.show_category()
+        self.show_category_combobox()
 
     def show_category(self):
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
@@ -151,6 +152,7 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage('New author added')
         self.lineEdit_new_author.setText('')
         self.show_author()
+        self.show_author_combobox()
 
     def show_author(self):
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
@@ -185,6 +187,7 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage('New publisher added')
         self.lineEdit_new_publisher.setText('')
         self.show_publisher()
+        self.show_publisher_combobox()
 
     def show_publisher(self):
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
@@ -208,6 +211,7 @@ class MainApp(QMainWindow, ui):
     ########################################################################
     ################### show settings data in UI ###########################
     def show_category_combobox(self):
+        self.category_comboBox.clear()
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
         self.cur = self.db.cursor()
 
@@ -218,6 +222,7 @@ class MainApp(QMainWindow, ui):
             self.category_comboBox.addItem(category[0])
 
     def show_author_combobox(self):
+        self.author_comboBox.clear()
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
         self.cur = self.db.cursor()
 
@@ -228,6 +233,7 @@ class MainApp(QMainWindow, ui):
             self.author_comboBox.addItem(author[0])
 
     def show_publisher_combobox(self):
+        self.publisher_comboBox.clear()
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
         self.cur = self.db.cursor()
 
