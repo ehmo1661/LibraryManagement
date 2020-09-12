@@ -20,6 +20,11 @@ class MainApp(QMainWindow, ui):
         self.show_author()
         self.show_publisher()
 
+        self.show_category_combobox()
+        self.show_author_combobox()
+        self.show_publisher_combobox()
+
+
 
     def Handle_UI_Changes(self):
         self.hiding_themes()
@@ -199,7 +204,39 @@ class MainApp(QMainWindow, ui):
                     column += 1
                 row_position = self.publisher_table.rowCount()
                 self.publisher_table.insertRow(row_position)
-    
+
+    ########################################################################
+    ################### show settings data in UI ###########################
+    def show_category_combobox(self):
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''select category_name from library.category''')
+        data = self.cur.fetchall()
+
+        for category in data:
+            self.category_comboBox.addItem(category[0])
+
+    def show_author_combobox(self):
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''select author_name from library.authors''')
+        data = self.cur.fetchall()
+
+        for author in data:
+            self.author_comboBox.addItem(author[0])
+
+    def show_publisher_combobox(self):
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''select publisher_name from library.publisher''')
+        data = self.cur.fetchall()
+
+        for publisher in data:
+            self.publisher_comboBox.addItem(publisher[0])
+
 
 def main():
     app = QApplication(sys.argv)
