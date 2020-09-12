@@ -17,6 +17,9 @@ class MainApp(QMainWindow, ui):
         self.Handle_Buttons()
 
         self.show_category()
+        self.show_author()
+        self.show_publisher()
+
 
     def Handle_UI_Changes(self):
         self.hiding_themes()
@@ -142,9 +145,26 @@ class MainApp(QMainWindow, ui):
         self.db.commit()
         self.statusBar().showMessage('New author added')
         self.lineEdit_new_author.setText('')
+        self.show_author()
 
     def show_author(self):
-        pass
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''select author_name from library.authors''')
+        data = self.cur.fetchall()
+
+        if data:  # I think this part of code can be written better by making a list from data and iterate
+            self.author_table.setRowCount(0)
+            self.author_table.insertRow(0)
+            for row, form in enumerate(data):
+                # print('first loop', row, form)
+                for column, item in enumerate(form):
+                    # print('second loop', row, column, item)
+                    self.author_table.setItem(row, column, QTableWidgetItem(str(item)))
+                    column += 1
+                row_position = self.author_table.rowCount()
+                self.author_table.insertRow(row_position)
 
     def add_publisher(self):
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
@@ -159,9 +179,26 @@ class MainApp(QMainWindow, ui):
         self.db.commit()
         self.statusBar().showMessage('New publisher added')
         self.lineEdit_new_publisher.setText('')
+        self.show_publisher()
 
     def show_publisher(self):
-        pass
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''select publisher_name from library.publisher''')
+        data = self.cur.fetchall()
+
+        if data:  # I think this part of code can be written better by making a list from data and iterate
+            self.publisher_table.setRowCount(0)
+            self.publisher_table.insertRow(0)
+            for row, form in enumerate(data):
+                # print('first loop', row, form)
+                for column, item in enumerate(form):
+                    # print('second loop', row, column, item)
+                    self.publisher_table.setItem(row, column, QTableWidgetItem(str(item)))
+                    column += 1
+                row_position = self.publisher_table.rowCount()
+                self.publisher_table.insertRow(row_position)
     
 
 def main():
