@@ -107,6 +107,7 @@ class MainApp(QMainWindow, ui):
 
         self.db.commit()
         self.statusBar().showMessage('New category added')
+        self.lineEdit_new_cat.setText('')
         self.show_category()
 
     def show_category(self):
@@ -140,6 +141,7 @@ class MainApp(QMainWindow, ui):
 
         self.db.commit()
         self.statusBar().showMessage('New author added')
+        self.lineEdit_new_author.setText('')
 
     def show_author(self):
         pass
@@ -156,6 +158,7 @@ class MainApp(QMainWindow, ui):
 
         self.db.commit()
         self.statusBar().showMessage('New publisher added')
+        self.lineEdit_new_publisher.setText('')
 
     def show_publisher(self):
         pass
