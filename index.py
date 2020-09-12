@@ -16,6 +16,8 @@ class MainApp(QMainWindow, ui):
         self.Handle_UI_Changes()
         self.Handle_Buttons()
 
+        self.show_category()
+
     def Handle_UI_Changes(self):
         self.hiding_themes()
         self.tabWidget.tabBar().setVisible(False)
@@ -29,6 +31,12 @@ class MainApp(QMainWindow, ui):
         self.books_tab_button.clicked.connect(self.open_books_tab)
         self.users_tab_button.clicked.connect(self.open_users_tab)
         self.settings_tab_button.clicked.connect(self.open_settings_tab)
+
+        self.addbook_save.clicked.connect(self.add_new_book)
+
+        self.add_category_Button.clicked.connect(self.add_category)
+        self.add_author_Button.clicked.connect(self.add_author)
+        self.add_publisher_Button.clicked.connect(self.add_publisher)
 
 
     def show_themes(self):
@@ -55,7 +63,15 @@ class MainApp(QMainWindow, ui):
     ########################################################################
     ########################### Books tabs #################################
     def add_new_book(self):
-        pass
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        book_title = self.lineEdit_2.text()
+        book_code = self.lineEdit_3.text()
+        book_price = self.lineEdit_4.text()
+        book_category = self.comboBox_3.CurrentText()
+        book_author = self.comboBox_4.CurrentText()
+        book_publisher = self.comboBox_5.CurrentText()
 
     def search_book(self):
         pass
@@ -80,12 +96,68 @@ class MainApp(QMainWindow, ui):
     ########################################################################
     ########################### settings tabs ##############################
     def add_category(self):
-        pass
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        category_name_field = self.lineEdit_new_cat.text()
+
+        self.cur.execute('''
+            INSERT INTO library.category (`category_name`) VALUES (%s)
+        ''', category_name_field)
+
+        self.db.commit()
+        self.statusBar().showMessage('New category added')
+        self.show_category()
+
+    def show_category(self):
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''select category_name from library.category''')
+        data = self.cur.fetchall()
+
+        if data:   # I think this part of code can be written better by making a list from data and iterate
+            self.category_table.setRowCount(0)
+            self.category_table.insertRow(0)
+            for row, form in enumerate(data):
+                #print('first loop', row, form)
+                for column, item in enumerate(form):
+                    #print('second loop', row, column, item)
+                    self.category_table.setItem(row, column, QTableWidgetItem(str(item)))
+                    column += 1
+                row_position = self.category_table.rowCount()
+                self.category_table.insertRow(row_position)
 
     def add_author(self):
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        author_name_field = self.lineEdit_new_author.text()
+
+        self.cur.execute('''
+            INSERT INTO library.authors (`author_name`) VALUES (%s)
+        ''', author_name_field)
+
+        self.db.commit()
+        self.statusBar().showMessage('New author added')
+
+    def show_author(self):
         pass
 
     def add_publisher(self):
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        publisher_name_field = self.lineEdit_new_publisher.text()
+
+        self.cur.execute('''
+            INSERT INTO library.publisher (`publisher_name`) VALUES (%s)
+        ''', publisher_name_field)
+
+        self.db.commit()
+        self.statusBar().showMessage('New publisher added')
+
+    def show_publisher(self):
         pass
     
 

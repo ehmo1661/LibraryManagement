@@ -513,7 +513,7 @@
          <string>Publisher</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_7">
+       <widget class="QPushButton" name="addbook_save">
         <property name="geometry">
          <rect>
           <x>290</x>
@@ -1182,7 +1182,7 @@
        <attribute name="title">
         <string>Category</string>
        </attribute>
-       <widget class="QPushButton" name="pushButton_17">
+       <widget class="QPushButton" name="add_category_Button">
         <property name="geometry">
          <rect>
           <x>450</x>
@@ -1200,7 +1200,7 @@
          <string>Add Category</string>
         </property>
        </widget>
-       <widget class="QTableWidget" name="tableWidget_2">
+       <widget class="QTableWidget" name="category_table">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -1233,7 +1233,7 @@
          <string>New Category Name</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_34">
+       <widget class="QLineEdit" name="lineEdit_new_cat">
         <property name="geometry">
          <rect>
           <x>210</x>
@@ -1257,7 +1257,7 @@
        <attribute name="title">
         <string>Author</string>
        </attribute>
-       <widget class="QLineEdit" name="lineEdit_35">
+       <widget class="QLineEdit" name="lineEdit_new_author">
         <property name="geometry">
          <rect>
           <x>210</x>
@@ -1294,7 +1294,7 @@
          <string>New Author Name</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_18">
+       <widget class="QPushButton" name="add_author_Button">
         <property name="geometry">
          <rect>
           <x>450</x>
@@ -1312,7 +1312,7 @@
          <string>Add Author</string>
         </property>
        </widget>
-       <widget class="QTableWidget" name="tableWidget_3">
+       <widget class="QTableWidget" name="author_table">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -1332,7 +1332,7 @@
        <attribute name="title">
         <string>Publisher</string>
        </attribute>
-       <widget class="QLineEdit" name="lineEdit_36">
+       <widget class="QLineEdit" name="lineEdit_new_publisher">
         <property name="geometry">
          <rect>
           <x>230</x>
@@ -1369,7 +1369,7 @@
          <string>New Publisher Name</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_19">
+       <widget class="QPushButton" name="add_publisher_Button">
         <property name="geometry">
          <rect>
           <x>470</x>
@@ -1387,7 +1387,7 @@
          <string>Add Publisher</string>
         </property>
        </widget>
-       <widget class="QTableWidget" name="tableWidget_4">
+       <widget class="QTableWidget" name="publisher_table">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1440,6 +1440,9 @@
       <width>391</width>
       <height>361</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(132, 124, 124);</string>
@@ -1562,6 +1565,13 @@
      </property>
     </widget>
    </widget>
+   <zorder>themes_window</zorder>
+   <zorder>tabWidget</zorder>
+   <zorder>books_tab_button</zorder>
+   <zorder>users_tab_button</zorder>
+   <zorder>settings_tab_button</zorder>
+   <zorder>themebutton</zorder>
+   <zorder>day_tabs_button</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
