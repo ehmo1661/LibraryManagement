@@ -24,6 +24,8 @@ class MainApp(QMainWindow, ui):
         self.show_author_combobox()
         self.show_publisher_combobox()
 
+        self.manjaromix_theme()
+
 
 
     def Handle_UI_Changes(self):
@@ -52,6 +54,11 @@ class MainApp(QMainWindow, ui):
         self.user_add_button.clicked.connect(self.add_new_user)
         self.user_login_button.clicked.connect(self.login)
         self.user_edit_button.clicked.connect(self.edit_user)
+
+        self.ubuntu_theme_button.clicked.connect(self.ubuntu_theme)
+        self.elegantdark_theme_button.clicked.connect(self.elegantdark_theme)
+        self.manjaromix_theme_button.clicked.connect(self.manjaromix_theme)
+        self.materialdark_theme_button.clicked.connect(self.materialdark_theme)
 
 
 
@@ -385,6 +392,28 @@ class MainApp(QMainWindow, ui):
             self.publisher_comboBox.addItem(publisher[0])
             self.comboBox_16.addItem(publisher[0])
 
+    ########################################################################
+    ########################## UI Theme ####################################
+
+    def ubuntu_theme(self):
+        style = open(r'Themes/Ubuntu.css', 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def elegantdark_theme(self):
+        style = open(r'Themes/ElegantDark.css', 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def manjaromix_theme(self):
+        style = open(r'Themes/ManjaroMix.css', 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def materialdark_theme(self):
+        style = open(r'Themes/MaterialDark.css', 'r')
+        style = style.read()
+        self.setStyleSheet(style)
 
 def main():
     app = QApplication(sys.argv)

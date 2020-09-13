@@ -1454,7 +1454,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>170</x>
       <y>80</y>
       <width>391</width>
       <height>361</height>
@@ -1464,7 +1464,7 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(132, 124, 124);</string>
+     <string notr="true">background-color: rgb(21, 26, 30);</string>
     </property>
     <property name="title">
      <string/>
@@ -1488,7 +1488,7 @@
       <string>Apply New Theme</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_23">
+    <widget class="QPushButton" name="ubuntu_theme_button">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -1503,11 +1503,14 @@
        <pointsize>14</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(240, 240, 240);</string>
+     </property>
      <property name="text">
-      <string>Add</string>
+      <string>Ubuntu</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_24">
+    <widget class="QPushButton" name="elegantdark_theme_button">
      <property name="geometry">
       <rect>
        <x>190</x>
@@ -1522,11 +1525,14 @@
        <pointsize>14</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(82, 82, 82);</string>
+     </property>
      <property name="text">
-      <string>Add</string>
+      <string>Elegantdark</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_25">
+    <widget class="QPushButton" name="manjaromix_theme_button">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -1541,11 +1547,14 @@
        <pointsize>14</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(21, 26, 30);</string>
+     </property>
      <property name="text">
-      <string>Add</string>
+      <string>Manjaromix</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_26">
+    <widget class="QPushButton" name="materialdark_theme_button">
      <property name="geometry">
       <rect>
        <x>190</x>
@@ -1560,8 +1569,11 @@
        <pointsize>14</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(30, 29, 35);</string>
+     </property>
      <property name="text">
-      <string>Add</string>
+      <string>Materialdark</string>
      </property>
     </widget>
     <widget class="QPushButton" name="theme_close">
@@ -1584,8 +1596,8 @@
      </property>
     </widget>
    </widget>
-   <zorder>themes_window</zorder>
    <zorder>tabWidget</zorder>
+   <zorder>themes_window</zorder>
    <zorder>books_tab_button</zorder>
    <zorder>users_tab_button</zorder>
    <zorder>settings_tab_button</zorder>
