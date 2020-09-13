@@ -115,7 +115,6 @@ class MainApp(QMainWindow, ui):
         self.comboBox_16.setCurrentIndex(data[6])
         self.lineEdit_14.setText(str(data[7]))
 
-
     def edit_book(self):
         pass
 
