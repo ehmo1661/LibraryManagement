@@ -681,7 +681,7 @@
          <string>Publisher</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_9">
+       <widget class="QPushButton" name="save_button">
         <property name="geometry">
          <rect>
           <x>430</x>
@@ -712,7 +712,7 @@
          <string>Author</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_12">
+       <widget class="QPushButton" name="delete_button">
         <property name="geometry">
          <rect>
           <x>150</x>

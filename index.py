@@ -41,12 +41,15 @@ class MainApp(QMainWindow, ui):
         self.settings_tab_button.clicked.connect(self.open_settings_tab)
 
         self.addbook_save.clicked.connect(self.add_new_book)
+        self.search_button.clicked.connect(self.search_book)
+        self.save_button.clicked.connect(self.edit_book)
+        self.delete_button.clicked.connect(self.delete_book)
 
         self.add_category_Button.clicked.connect(self.add_category)
         self.add_author_Button.clicked.connect(self.add_author)
         self.add_publisher_Button.clicked.connect(self.add_publisher)
 
-        self.search_button.clicked.connect(self.search_book)
+
 
 
     def show_themes(self):
@@ -129,24 +132,28 @@ class MainApp(QMainWindow, ui):
 
         searched_title = self.booktitle_search.text()
 
-        self.cur.execute('''update library.book set
-            (book_name = %s, book_description = %s, book_code = %s,
-            book_category = %s, book_author = %s, book_publisher = %s, book_price = %s)
-            where book_name = %s
-                ''', (book_title, book_description, book_code, book_category, book_author, book_publisher, book_price, searched_title))
+        self.cur.execute('''update library.book set 
+            book_name = %s, book_description = %s, book_code = %s, book_category = %s, book_author = %s, 
+            book_publisher = %s, book_price = %s
+            where book_name = %s '''
+            , (book_title, book_description, book_code, book_category, book_author, book_publisher, book_price, searched_title))
         self.db.commit()
-        self.statusBar().showMessage('The book updated')
-
-        '''self.lineEdit_2.setText('')
-        self.textEdit.setText('')
-        self.lineEdit_3.setText('')
-        self.lineEdit_4.setText('')
-        self.category_comboBox.setCurrentIndex(0)
-        self.author_comboBox.setCurrentIndex(0)
-        self.publisher_comboBox.setCurrentIndex(0)'''
+        self.statusBar().showMessage('book updated')
 
     def delete_book(self):
-        pass
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        searched_title = self.booktitle_search.text()
+
+        warning = QMessageBox.warning(self, 'Delete Book', 'Are you sure?', QMessageBox.Yes | QMessageBox.No)
+        if warning == QMessageBox.Yes:
+            self.cur.execute('''delete from library.book where book_name = %s''', searched_title)
+            self.db.commit()
+            self.statusBar().showMessage('book deleted')
+
+
+
 
     ########################################################################
     ########################### users tabs #################################
