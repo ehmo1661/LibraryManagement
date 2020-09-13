@@ -116,7 +116,34 @@ class MainApp(QMainWindow, ui):
         self.lineEdit_14.setText(str(data[7]))
 
     def edit_book(self):
-        pass
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        book_title = self.lineEdit_5.text()
+        book_description = self.textEdit_2.toPlainText()
+        book_code = self.lineEdit_15.text()
+        book_category = self.comboBox_17.currentIndex()
+        book_author = self.comboBox_15.currentIndex()
+        book_publisher = self.comboBox_16.currentIndex()
+        book_price = self.lineEdit_14.text()
+
+        searched_title = self.booktitle_search.text()
+
+        self.cur.execute('''update library.book set
+            (book_name = %s, book_description = %s, book_code = %s,
+            book_category = %s, book_author = %s, book_publisher = %s, book_price = %s)
+            where book_name = %s
+                ''', (book_title, book_description, book_code, book_category, book_author, book_publisher, book_price, searched_title))
+        self.db.commit()
+        self.statusBar().showMessage('The book updated')
+
+        '''self.lineEdit_2.setText('')
+        self.textEdit.setText('')
+        self.lineEdit_3.setText('')
+        self.lineEdit_4.setText('')
+        self.category_comboBox.setCurrentIndex(0)
+        self.author_comboBox.setCurrentIndex(0)
+        self.publisher_comboBox.setCurrentIndex(0)'''
 
     def delete_book(self):
         pass
