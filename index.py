@@ -46,6 +46,8 @@ class MainApp(QMainWindow, ui):
         self.add_author_Button.clicked.connect(self.add_author)
         self.add_publisher_Button.clicked.connect(self.add_publisher)
 
+        self.search_button.clicked.connect(self.search_book)
+
 
     def show_themes(self):
         self.themes_window.show()
@@ -75,14 +77,44 @@ class MainApp(QMainWindow, ui):
         self.cur = self.db.cursor()
 
         book_title = self.lineEdit_2.text()
+        book_description = self.textEdit.toPlainText()
         book_code = self.lineEdit_3.text()
+        book_category = self.category_comboBox.currentIndex()
+        book_author = self.author_comboBox.currentIndex()
+        book_publisher = self.publisher_comboBox.currentIndex()
         book_price = self.lineEdit_4.text()
-        book_category = self.comboBox_3.CurrentText()
-        book_author = self.comboBox_4.CurrentText()
-        book_publisher = self.comboBox_5.CurrentText()
+
+        self.cur.execute('''
+            INSERT INTO library.book (`book_name`, `book_description`, `book_code`, `book_category`, `book_author`,
+             `book_publisher`, `book_price`)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        ''', (book_title, book_description, book_code, book_category, book_author, book_publisher, book_price))
+        self.db.commit()
+        self.statusBar().showMessage('New book added')
+
+        self.lineEdit_2.setText('')
+        self.textEdit.setText('')
+        self.lineEdit_3.setText('')
+        self.lineEdit_4.setText('')
+        self.category_comboBox.setCurrentIndex(0)
+        self.author_comboBox.setCurrentIndex(0)
+        self.publisher_comboBox.setCurrentIndex(0)
 
     def search_book(self):
-        pass
+        book_title = self.booktitle_search.text()
+
+        self.cur.execute('''select * from library.book where book_name = %s''', book_title)
+        data = self.cur.fetchone()  # if I use fetchall method, the setText method on book title face a crash because in
+                                    # this way, fetchall results in a tuple like ((data......),) this mean that our result
+                                    # is first element of a tuple. but, what if the query returs more that one output?
+        self.lineEdit_5.setText(data[1])
+        self.textEdit_2.setText(data[2])
+        self.lineEdit_15.setText(data[3])
+        self.comboBox_17.setCurrentIndex(data[4])
+        self.comboBox_15.setCurrentIndex(data[5])
+        self.comboBox_16.setCurrentIndex(data[6])
+        self.lineEdit_14.setText(str(data[7]))
+
 
     def edit_book(self):
         pass
@@ -211,37 +243,40 @@ class MainApp(QMainWindow, ui):
     ########################################################################
     ################### show settings data in UI ###########################
     def show_category_combobox(self):
-        self.category_comboBox.clear()
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
         self.cur = self.db.cursor()
 
         self.cur.execute('''select category_name from library.category''')
         data = self.cur.fetchall()
 
+        self.category_comboBox.clear()
         for category in data:
             self.category_comboBox.addItem(category[0])
+            self.comboBox_17.addItem(category[0])
 
     def show_author_combobox(self):
-        self.author_comboBox.clear()
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
         self.cur = self.db.cursor()
 
         self.cur.execute('''select author_name from library.authors''')
         data = self.cur.fetchall()
 
+        self.author_comboBox.clear()
         for author in data:
             self.author_comboBox.addItem(author[0])
+            self.comboBox_15.addItem(author[0])
 
     def show_publisher_combobox(self):
-        self.publisher_comboBox.clear()
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
         self.cur = self.db.cursor()
 
         self.cur.execute('''select publisher_name from library.publisher''')
         data = self.cur.fetchall()
 
+        self.publisher_comboBox.clear()
         for publisher in data:
             self.publisher_comboBox.addItem(publisher[0])
+            self.comboBox_16.addItem(publisher[0])
 
 
 def main():
