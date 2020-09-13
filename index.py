@@ -49,6 +49,10 @@ class MainApp(QMainWindow, ui):
         self.add_author_Button.clicked.connect(self.add_author)
         self.add_publisher_Button.clicked.connect(self.add_publisher)
 
+        self.user_add_button.clicked.connect(self.add_new_user)
+        self.user_login_button.clicked.connect(self.login)
+        self.user_edit_button.clicked.connect(self.edit_user)
+
 
 
 
@@ -158,13 +162,83 @@ class MainApp(QMainWindow, ui):
     ########################################################################
     ########################### users tabs #################################
     def add_new_user(self):
-        pass
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        user_name = self.user_add.text()
+        email = self.email_add.text()
+        password = self.pass_add.text()
+        conf_password = self.conf_add.text()
+
+        if password == conf_password:
+            self.cur.execute('''
+                insert into library.users (user_name, user_email, user_password)
+                values (%s, %s, %s) 
+                ''', (user_name, email, password))
+            self.db.commit()
+            self.statusBar().showMessage('new user added')
+        else:
+            msgbox = QMessageBox()
+            msgbox.setIcon(QMessageBox.Warning)
+            msgbox.setText('Please make sure passwords are the same')
+            msgbox.setWindowTitle("Password error")
+            msgbox.setStandardButtons(QMessageBox.Ok)
+            msgbox.exec()
+
+        self.user_add.setText('')
+        self.email_add.setText('')
+        self.pass_add.setText('')
+        self.conf_add.setText('')
 
     def login(self):
-        pass
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        user_name = self.user_login.text()
+        password = self.pass_login.text()
+
+        sql = '''select * from library.users'''
+        self.cur.execute(sql)
+        all_users = self.cur.fetchall()
+        for user in all_users:
+            if user_name == user[1] and password == user[3]:
+                self.statusBar().showMessage('Valid user information')
+                self.edit_user_box.setEnabled(True)
+
+                self.user_edit.setText(user[1])
+                self.email_edit.setText(user[2])
+                self.pass_edit.setText(user[3])
 
     def edit_user(self):
-        pass
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        user_name = self.user_edit.text()
+        email = self.email_edit.text()
+        password = self.pass_edit.text()
+        conf_password = self.conf_edit.text()
+
+        old_user_name = self.user_login.text()
+
+        if password == conf_password:
+            self.cur.execute('''
+                        update library.users set user_name = %s, user_email = %s, user_password = %s
+                        where user_name = %s
+                        ''', (user_name, email, password, old_user_name))
+            self.db.commit()
+            self.statusBar().showMessage('user information updated')
+        else:
+            msgbox = QMessageBox()
+            msgbox.setIcon(QMessageBox.Warning)
+            msgbox.setText('Please make sure passwords are the same')
+            msgbox.setWindowTitle("Password error")
+            msgbox.setStandardButtons(QMessageBox.Ok)
+            msgbox.exec()
+
+        self.user_edit.setText('')
+        self.email_edit.setText('')
+        self.pass_edit.setText('')
+        self.conf_edit.setText('')
 
     ########################################################################
     ########################### settings tabs ##############################
