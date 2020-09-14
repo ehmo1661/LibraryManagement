@@ -130,7 +130,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <property name="tabBarAutoHide">
      <bool>false</bool>
@@ -1644,13 +1644,13 @@
      </property>
     </widget>
    </widget>
-   <zorder>themes_window</zorder>
    <zorder>tabWidget</zorder>
    <zorder>books_tab_button</zorder>
    <zorder>users_tab_button</zorder>
    <zorder>settings_tab_button</zorder>
    <zorder>themebutton</zorder>
    <zorder>day_tabs_button</zorder>
+   <zorder>themes_window</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

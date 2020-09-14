@@ -9,6 +9,49 @@ import jdatetime
 #pymysql.install_as_MySQLdb()
 
 ui, _ = loadUiType('MainPage.ui')
+login, _ = loadUiType('login.ui')
+
+
+class Login(QWidget, login):
+    def __init__(self):
+        QWidget.__init__(self)
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.handle_login)
+        style = open(r'Themes/ManjaroMix.css', 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def handle_login(self):
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        username = self.user_edit.text()
+        password = self.pass_edit.text()
+
+        sql = '''select * from library.users'''
+        self.cur.execute(sql)
+        all_users = self.cur.fetchall()
+        for user in all_users:
+            if username == user[1] and password == user[3]:
+                print('Valid user information')
+                self.window2 = MainApp()
+                self.close()
+                self.window2.show()
+
+
+        # else:
+        #     msgbox = QMessageBox()
+        #     msgbox.setIcon(QMessageBox.Warning)
+        #     msgbox.setText('Please make sure passwords are the same')
+        #     msgbox.setWindowTitle("Password error")
+        #     msgbox.setStandardButtons(QMessageBox.Ok)
+        #     msgbox.exec()
+        #
+        # self.user_edit.setText('')
+        # self.email_edit.setText('')
+        # self.pass_edit.setText('')
+        # self.conf_edit.setText('')
+
 
 
 class MainApp(QMainWindow, ui):
@@ -491,7 +534,7 @@ class MainApp(QMainWindow, ui):
 
 def main():
     app = QApplication(sys.argv)
-    window = MainApp()
+    window = Login()
     window.show()
     app.exec_()
 
