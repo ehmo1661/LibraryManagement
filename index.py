@@ -24,6 +24,8 @@ class MainApp(QMainWindow, ui):
         self.show_author_combobox()
         self.show_publisher_combobox()
 
+        self.show_all_books()
+
         self.manjaromix_theme()
 
 
@@ -86,6 +88,26 @@ class MainApp(QMainWindow, ui):
 
     ########################################################################
     ########################### Books tabs #################################
+    def show_all_books(self):
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''select `book_code`, `book_name`, `book_description`, `book_category`,
+            `book_author`, `book_publisher`, `book_price` from library.book ''')
+        data = self.cur.fetchall()
+
+        self.all_book_table.setRowCount(0)
+        self.all_book_table.insertRow(0)
+
+        for row, form in enumerate(data):
+            for column, item in enumerate(form):
+                self.all_book_table.setItem(row, column, QTableWidgetItem(str(item)))
+                column += 1
+            row_position = self.all_book_table.rowCount()
+            self.all_book_table.insertRow(row_position)
+
+        self.db.close()
+
     def add_new_book(self):
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
         self.cur = self.db.cursor()
@@ -93,9 +115,9 @@ class MainApp(QMainWindow, ui):
         book_title = self.lineEdit_2.text()
         book_description = self.textEdit.toPlainText()
         book_code = self.lineEdit_3.text()
-        book_category = self.category_comboBox.currentIndex()
-        book_author = self.author_comboBox.currentIndex()
-        book_publisher = self.publisher_comboBox.currentIndex()
+        book_category = self.category_comboBox.currentText()
+        book_author = self.author_comboBox.currentText()
+        book_publisher = self.publisher_comboBox.currentText()
         book_price = self.lineEdit_4.text()
 
         self.cur.execute('''
@@ -114,7 +136,12 @@ class MainApp(QMainWindow, ui):
         self.author_comboBox.setCurrentIndex(0)
         self.publisher_comboBox.setCurrentIndex(0)
 
+        self.show_all_books()
+
     def search_book(self):
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
         book_title = self.booktitle_search.text()
 
         self.cur.execute('''select * from library.book where book_name = %s''', book_title)
@@ -124,9 +151,9 @@ class MainApp(QMainWindow, ui):
         self.lineEdit_5.setText(data[1])
         self.textEdit_2.setText(data[2])
         self.lineEdit_15.setText(data[3])
-        self.comboBox_17.setCurrentIndex(data[4])
-        self.comboBox_15.setCurrentIndex(data[5])
-        self.comboBox_16.setCurrentIndex(data[6])
+        self.comboBox_17.setCurrentText(data[4])
+        self.comboBox_15.setCurrentText(data[5])
+        self.comboBox_16.setCurrentText(data[6])
         self.lineEdit_14.setText(str(data[7]))
 
     def edit_book(self):
@@ -136,9 +163,9 @@ class MainApp(QMainWindow, ui):
         book_title = self.lineEdit_5.text()
         book_description = self.textEdit_2.toPlainText()
         book_code = self.lineEdit_15.text()
-        book_category = self.comboBox_17.currentIndex()
-        book_author = self.comboBox_15.currentIndex()
-        book_publisher = self.comboBox_16.currentIndex()
+        book_category = self.comboBox_17.currentText()
+        book_author = self.comboBox_15.currentText()
+        book_publisher = self.comboBox_16.currentText()
         book_price = self.lineEdit_14.text()
 
         searched_title = self.booktitle_search.text()
@@ -150,6 +177,8 @@ class MainApp(QMainWindow, ui):
             , (book_title, book_description, book_code, book_category, book_author, book_publisher, book_price, searched_title))
         self.db.commit()
         self.statusBar().showMessage('book updated')
+
+        self.show_all_books()
 
     def delete_book(self):
         self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
@@ -163,8 +192,7 @@ class MainApp(QMainWindow, ui):
             self.db.commit()
             self.statusBar().showMessage('book deleted')
 
-
-
+        self.show_all_books()
 
     ########################################################################
     ########################### users tabs #################################
