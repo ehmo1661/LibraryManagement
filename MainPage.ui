@@ -130,7 +130,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="tabBarAutoHide">
      <bool>false</bool>
@@ -139,47 +139,45 @@
      <attribute name="title">
       <string>Tab 1</string>
      </attribute>
-     <widget class="QTableWidget" name="tableWidget">
+     <widget class="QTableWidget" name="day_table">
       <property name="geometry">
        <rect>
         <x>50</x>
         <y>220</y>
-        <width>611</width>
+        <width>591</width>
         <height>301</height>
        </rect>
       </property>
       <column>
        <property name="text">
-        <string>book code</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
         <string>book title</string>
        </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>book author</string>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>book publisher</string>
+        <string>Type</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>book category</string>
+        <string>Days</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>book price</string>
+        <string>From</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>To</string>
        </property>
       </column>
      </widget>
-     <widget class="QPushButton" name="pushButton_6">
+     <widget class="QPushButton" name="day_add_button">
       <property name="geometry">
        <rect>
         <x>400</x>
@@ -211,7 +209,7 @@
        <string>Enter Book title</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="rent_comboBox">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -257,7 +255,7 @@
        <string>Days</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox_2">
+     <widget class="QComboBox" name="days_comboBox">
       <property name="geometry">
        <rect>
         <x>100</x>

@@ -4,6 +4,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUiType
 import pymysql
+import datetime
+import jdatetime
 #pymysql.install_as_MySQLdb()
 
 ui, _ = loadUiType('MainPage.ui')
@@ -24,6 +26,7 @@ class MainApp(QMainWindow, ui):
         self.show_author_combobox()
         self.show_publisher_combobox()
 
+        self.show_day_operation()
         self.show_all_books()
 
         self.manjaromix_theme()
@@ -43,6 +46,8 @@ class MainApp(QMainWindow, ui):
         self.books_tab_button.clicked.connect(self.open_books_tab)
         self.users_tab_button.clicked.connect(self.open_users_tab)
         self.settings_tab_button.clicked.connect(self.open_settings_tab)
+
+        self.day_add_button.clicked.connect(self.handle_day_operations)
 
         self.addbook_save.clicked.connect(self.add_new_book)
         self.search_button.clicked.connect(self.search_book)
@@ -85,6 +90,47 @@ class MainApp(QMainWindow, ui):
 
     def open_settings_tab(self):
         self.tabWidget.setCurrentIndex(3)
+
+    ########################################################################
+    ######################## day to day operations #########################
+    def handle_day_operations(self):
+        book_title = self.lineEdit.text()
+        book_type = self.rent_comboBox.currentText()
+        days = self.days_comboBox.currentIndex()+1
+        date = datetime.date.today()
+        due_date = date + datetime.timedelta(days=days)
+
+
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''
+            insert into library.dayoperations (`book_name`, `type`, `days`, `Date`, `To`) values (%s, %s, %s, %s, %s)
+        ''', (book_title, book_type, days, date, due_date))
+
+        self.db.commit()
+        self.statusBar().showMessage('New operation added')
+        self.show_day_operation()
+
+    def show_day_operation(self):
+        self.db = pymysql.connect(host='localhost', user='root', password='89412317', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''select `book_name`, `type`, `days`, `Date`, `To` from library.dayoperations ''')
+        data = self.cur.fetchall()
+
+        self.day_table.setRowCount(0)
+        self.day_table.insertRow(0)
+
+        for row, form in enumerate(data):
+            for column, item in enumerate(form):
+                self.day_table.setItem(row, column, QTableWidgetItem(str(item)))
+                column += 1
+            row_position = self.day_table.rowCount()
+            self.day_table.insertRow(row_position)
+
+        self.db.close()
+
 
     ########################################################################
     ########################### Books tabs #################################
